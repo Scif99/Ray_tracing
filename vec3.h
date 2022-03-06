@@ -1,36 +1,39 @@
-#ifndef VEC3_H
-#define VEC3_H
+#pragma once
 
 #include <cmath>
 #include <iostream>
 
 
 using std::sqrt;
-
+/// <summary>
+/// A simple class defining a 3d vector.
+/// The vector consists of a fixed array of 3 integers, representing x,y,z coordinates respectively.
+/// The class does not provide range-checking.
+/// </summary>
 class vec3 {
 public:
-    vec3() : e{ 0,0,0 } {}
-    vec3(double e0, double e1, double e2) : e{ e0, e1, e2 } {}
+    vec3() : elem{ 0,0,0 } {}
+    vec3(double e0, double e1, double e2) : elem{ e0, e1, e2 } {}
 
-    double x() const { return e[0]; }
-    double y() const { return e[1]; }
-    double z() const { return e[2]; }
+    double x() const { return elem[0]; }
+    double y() const { return elem[1]; }
+    double z() const { return elem[2]; }
 
-    vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); }
-    double operator[](int i) const { return e[i]; }
-    double& operator[](int i) { return e[i]; }
+    vec3 operator-() const { return vec3(-elem[0], -elem[1], -elem[2]); }
+    double operator[](int i) const { return elem[i]; }// for const vectors
+    double& operator[](int i) { return elem[i]; } //non-const vectors
 
     vec3& operator+=(const vec3& v) {
-        e[0] += v.e[0];
-        e[1] += v.e[1];
-        e[2] += v.e[2];
+        elem[0] += v.elem[0];
+        elem[1] += v.elem[1];
+        elem[2] += v.elem[2];
         return *this;
     }
 
     vec3& operator*=(const double t) {
-        e[0] *= t;
-        e[1] *= t;
-        e[2] *= t;
+        elem[0] *= t;
+        elem[1] *= t;
+        elem[2] *= t;
         return *this;
     }
 
@@ -38,19 +41,19 @@ public:
         return *this *= 1 / t;
     }
 
+    double length_squared() const {
+        return elem[0] * elem[0] + elem[1] * elem[1] + elem[2] * elem[2];
+    }
+
     double length() const {
         return sqrt(length_squared());
     }
 
-    double length_squared() const {
-        return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
-    }
-
-    inline static vec3 random() {
+    inline static vec3 random() { //generates a vector with random elements
         return vec3(random_double(), random_double(), random_double());
     }
 
-    inline static vec3 random(double min, double max) {
+    inline static vec3 random(double min, double max) { //generates a random vector whose elements are bounded between min and max
         return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
     }
 
@@ -58,11 +61,11 @@ public:
     bool near_zero() const
     {
         const auto s = 1e-8;
-        return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+        return (fabs(elem[0]) < s) && (fabs(elem[1]) < s) && (fabs(elem[2]) < s);
     }
 
 public:
-    double e[3];
+    double elem[3];
 };
 
 // Type aliases for vec3
@@ -73,23 +76,23 @@ using color = vec3;    // RGB color
 // vec3 Utility Functions
 
 inline std::ostream& operator<<(std::ostream& out, const vec3& v) {
-    return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
+    return out << v.elem[0] << ' ' << v.elem[1] << ' ' << v.elem[2];
 }
 
 inline vec3 operator+(const vec3& u, const vec3& v) {
-    return vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
+    return vec3(u.elem[0] + v.elem[0], u.elem[1] + v.elem[1], u.elem[2] + v.elem[2]);
 }
 
 inline vec3 operator-(const vec3& u, const vec3& v) {
-    return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
+    return vec3(u.elem[0] - v.elem[0], u.elem[1] - v.elem[1], u.elem[2] - v.elem[2]);
 }
 
 inline vec3 operator*(const vec3& u, const vec3& v) {
-    return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
+    return vec3(u.elem[0] * v.elem[0], u.elem[1] * v.elem[1], u.elem[2] * v.elem[2]);
 }
 
 inline vec3 operator*(double t, const vec3& v) {
-    return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
+    return vec3(t * v.elem[0], t * v.elem[1], t * v.elem[2]);
 }
 
 inline vec3 operator*(const vec3& v, double t) {
@@ -101,15 +104,15 @@ inline vec3 operator/(vec3 v, double t) {
 }
 
 inline double dot(const vec3& u, const vec3& v) {
-    return u.e[0] * v.e[0]
-        + u.e[1] * v.e[1]
-        + u.e[2] * v.e[2];
+    return u.elem [0] * v.elem[0]
+        + u.elem[1] * v.elem[1]
+        + u.elem[2] * v.elem[2];
 }
 
 inline vec3 cross(const vec3& u, const vec3& v) {
-    return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
-        u.e[2] * v.e[0] - u.e[0] * v.e[2],
-        u.e[0] * v.e[1] - u.e[1] * v.e[0]);
+    return vec3(u.elem[1] * v.elem[2] - u.elem[2] * v.elem[1],
+        u.elem[2] * v.elem[0] - u.elem[0] * v.elem[2],
+        u.elem[0] * v.elem[1] - u.elem[1] * v.elem[0]);
 }
 
 inline vec3 unit_vector(vec3 v) {
@@ -150,6 +153,3 @@ vec3 refract(const vec3& uv, const vec3& n, double e_in_over_e_out)
     return r_out_perp + r_out_parallel;
 
 }
-
-
-#endif

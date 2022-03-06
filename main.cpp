@@ -110,7 +110,7 @@ int main() {
         out_file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
         for (int j = image_height - 1; j >= 0; --j) {
-            std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+            std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush; //output progresss to cerr. \r basically means 'return to start'
             for (int i = 0; i < image_width; ++i) {
                 color pixel_color(0, 0, 0);
                 for (int s = 0; s < samples_per_pixel; ++s) {
