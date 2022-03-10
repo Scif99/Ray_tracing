@@ -15,4 +15,7 @@ for each pixel in image:
 
 **Chapter 7+: Shading**
 
+**Output**
+The program outputs the image into a ppm file, in the same folder as the .sln file.
+
 
