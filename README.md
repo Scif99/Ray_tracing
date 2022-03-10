@@ -2,6 +2,8 @@
 
 Ray Tracing in a nutshell:
 ```
+initialise: scene, camera
+
 for each pixel in image:
   compute viewing ray from camera
   if intersection occurs with ray parameter t > 0:
