@@ -2,7 +2,7 @@
 
 Ray Tracing in a nutshell:
 ```
-for each pixel:
+for each pixel in image:
   compute viewing ray from camera
   if intersection occurs with ray parameter t:
     compute normal n
