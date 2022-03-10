@@ -11,6 +11,8 @@ for each pixel in image:
    else set color to background
  end for
 ```
+- Note that if the scene has many objects, we take the intersection with the smallest t.
+
 **Chapter 7+: Shading**
 
 
