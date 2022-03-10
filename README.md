@@ -1,7 +1,7 @@
 # Ray_tracing
 
 Ray Tracing in a nutshell:
-
+```
 for each pixel:
 
   compute viewing ray from camera
@@ -17,7 +17,7 @@ for each pixel:
    else set color to background
    
  end for
-
+```
 **Chapter 7+: Shading**
 
 
