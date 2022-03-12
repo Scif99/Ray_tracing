@@ -17,8 +17,7 @@ for each pixel in image:
 - The intersection loop needs to store enough all relevant information needed to shade...
 
 **Improving Quality**
-- If each ray hits the centre of each pixel once, then we end up with jagged edges. If you had some small objects in the scene, they might even be missed. This is called **Antialiasing**
-- To get a more accurate color at a pixel, we can take multiple samples not necessarily hitting the centre, then take an average. 
+- If each ray hits the centre of each pixel once, then we end up with jagged edges. If you had some small objects in the scene, they might even be missed. This is called **Antialiasing**. To get a more accurate color, we can take multiple samples per pixel (not necessarily hitting the centre), then take an average. 
 
 **Chapter 7+: Shading**
 
