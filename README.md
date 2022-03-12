@@ -5,7 +5,7 @@ Ray Tracing in a nutshell:
 initialise: scene, camera
 
 for each pixel in image:
-  compute viewing ray from camera
+  compute viewing ray(s) from camera
   if intersection occurs with ray parameter t > 0:
     compute normal n
     evaluate shading model
@@ -14,6 +14,7 @@ for each pixel in image:
  end for
 ```
 - Note that if the scene has many objects, we take the intersection with the smallest t.
+- The intersection loop needs to store enough all relevant information needed to shade...
 
 **Improving Quality**
 - If each ray hits the centre of each pixel once, then we end up with jagged edges. If you had some small objects in the scene, they might even be missed. This is called **Antialiasing**
