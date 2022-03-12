@@ -25,3 +25,9 @@ for each pixel in image:
 The program outputs the image into a ppm file, in the same folder as the .sln file.
 
 
+**OOP**
+- The scene might contain different geometries (i.e different shapes). What happens upon intersection will vary depending on the geometry.Because of this, it makes sense to use a class heirarchy to represent the shapes. 
+- There is an abstract class 'hittable' from which all shapes derived from.
+
+
+
