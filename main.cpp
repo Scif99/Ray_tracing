@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 
+//Create Scene
 hittable_list random_scene() {
     hittable_list world;
 
