@@ -49,19 +49,22 @@ public:
         return sqrt(length_squared());
     }
 
-    inline static vec3 random() { //generates a vector with random elements
-        return vec3(random_double(), random_double(), random_double());
-    }
 
-    inline static vec3 random(double min, double max) { //generates a random vector whose elements are bounded between min and max
-        return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
-    }
 
     // Returns 0 if the vector is near zero in all components
     bool near_zero() const
     {
         const auto s = 1e-8;
         return (fabs(elem[0]) < s) && (fabs(elem[1]) < s) && (fabs(elem[2]) < s);
+    }
+
+    //Static member functions (called using scope :: operator
+    inline static vec3 random() { //generates a vector with random elements
+        return vec3(random_double(), random_double(), random_double());
+    }
+
+    inline static vec3 random(double min, double max) { //generates a random vector whose elements are bounded between min and max
+        return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
     }
 
 public:

@@ -1,5 +1,4 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#pragma once
 
 #include "rtweekend.h"
 #include "hittable.h"
@@ -94,5 +93,3 @@ public:
 	double ir; // Index of refraction
 };
 
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include "rtweekend.h"
 
@@ -50,4 +49,3 @@ private:
     vec3 u, v, w;
     double lens_radius;
 };
-#endif

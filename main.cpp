@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 
+//Initialise the scene
 hittable_list random_scene() {
     hittable_list world;
 
@@ -55,7 +56,7 @@ hittable_list random_scene() {
     return world;
 }
 
-// Function that returns a color depending on what the ray intersects ('hits')
+// Function that returns the color of a pixel by evaluating the shading mdoel
 // Depth represents the number of collisions we consider
 color ray_color(const ray& r, const hittable& world, int depth) {
     hit_record rec;
@@ -87,8 +88,8 @@ int main() {
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 10;
-    const int max_depth = 50;
+    const int samples_per_pixel = 1;
+    const int max_depth = 3;
 
     // World
     auto world = random_scene();
@@ -102,7 +103,7 @@ int main() {
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
-    // Render
+    // Read into a ppm file
     std::fstream out_file;
     out_file.open("image.ppm", std::ios::out);  // open a file to perform write operation using file object
     if (out_file.is_open())
