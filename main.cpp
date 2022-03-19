@@ -7,6 +7,7 @@
 #include "material.h"
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 //Initialise the scene
 hittable_list random_scene() {
@@ -70,7 +71,6 @@ color ray_color(const ray& r, const hittable& world, int depth) {
         ray scattered;
         color attenuation;
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-            std::cerr << "\rReflections left: " << depth<<std::flush;
             return attenuation * ray_color(scattered, world, depth - 1);
         return color(0, 0, 0);
     }
@@ -88,7 +88,7 @@ int main() {
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 1;
+    const int samples_per_pixel = 3; //use a thread per sample?
     const int max_depth = 3;
 
     // World
@@ -103,6 +103,8 @@ int main() {
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
+
+    auto start = std::chrono::high_resolution_clock::now();
     // Read into a ppm file
     std::fstream out_file;
     out_file.open("image.ppm", std::ios::out);  // open a file to perform write operation using file object
@@ -127,6 +129,7 @@ int main() {
         }
         out_file.close();
     }
-
-    std::cerr << "\nDone.\n";
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cerr << "\nCompleted in "<<duration.count()<<" Seconds.\n";
 }
