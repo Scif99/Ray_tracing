@@ -10,7 +10,7 @@ for each pixel in image:
     compute normal n
     evaluate shading model
     set color
-   else set color to background
+  else set color to background
  end for
 ```
 - Note that if the scene has many objects, we take the intersection with the smallest t.
