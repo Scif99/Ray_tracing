@@ -88,8 +88,8 @@ int main() {
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 3; //use a thread per sample?
-    const int max_depth = 3;
+    const int samples_per_pixel = 32; //use a thread per sample?
+    const int max_depth = 8;
 
     // World
     auto world = random_scene();
@@ -97,14 +97,14 @@ int main() {
     // Camera 
     point3 lookfrom(13, 2, 3);
     point3 lookat(0, 0, 0);
-    vec3 vup(0, 1, 0);
+    vec3 vup(0, 1, 0); // The up vector in the camera frame
     auto dist_to_focus = 10.0;
     auto aperture = 0.1;
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
 
-    auto start = std::chrono::high_resolution_clock::now();
+    const auto start = std::chrono::high_resolution_clock::now();
     // Read into a ppm file
     std::fstream out_file;
     out_file.open("image.ppm", std::ios::out);  // open a file to perform write operation using file object
@@ -129,7 +129,7 @@ int main() {
         }
         out_file.close();
     }
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    const auto stop = std::chrono::high_resolution_clock::now();
+    const auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cerr << "\nCompleted in "<<duration.count()<<" Seconds.\n";
 }
