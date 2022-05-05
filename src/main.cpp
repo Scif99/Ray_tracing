@@ -8,6 +8,10 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <thread>
+#include <mutex>
+#include <numeric>
+#include <functional>
 
 //Initialise the scene
 hittable_list random_scene() {
@@ -81,6 +85,12 @@ color ray_color(const ray& r, const hittable& world, int depth) {
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
+void globRayColor(const ray& r, const hittable& world, int depth, color& res)
+{
+    res = ray_color(r, world, depth);
+}
+
+
 int main() {
 
     // Image
@@ -106,23 +116,32 @@ int main() {
 
     const auto start = std::chrono::high_resolution_clock::now();
 
-        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-        for (int j = image_height - 1; j >= 0; --j) {
-            std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush; //output progresss to cerr. \r basically means 'return to start'
-            for (int i = 0; i < image_width; ++i) {
-                color pixel_color(0, 0, 0);
-                for (int s = 0; s < samples_per_pixel; ++s) {
-                    auto u = (i + random_double()) / (image_width - 1);
-                    auto v = (j + random_double()) / (image_height - 1);
-                    ray r = cam.get_ray(u, v);
-                    pixel_color += ray_color(r, world, max_depth);
-                }
+    //Store threads in vector
+    //std::vector<std::thread> threads(samples_per_pixel);
+    //std::vector<color> results(samples_per_pixel);
 
-                // Note this will average over all our samples
-                write_color(std::cout, pixel_color, samples_per_pixel);
+    for (int j = image_height - 1; j >= 0; --j) {
+        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush; //output progresss to cerr. \r basically means 'return to start'
+        for (int i = 0; i < image_width; ++i) {
+            color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; ++s) {
+                auto u = (i + random_double()) / (image_width - 1);
+                auto v = (j + random_double()) / (image_height - 1);
+                ray r = cam.get_ray(u, v);
+                //threads[s] = std::thread(globRayColor, std::cref(r), std::cref(world), max_depth, std::ref(results[s]));
+                pixel_color += ray_color(r, world, max_depth);
             }
+
+            //std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
+            //auto pixel_color = std::accumulate(std::begin(results), std::end(results), color(0.f,0.f,0.f));
+
+
+            // Note this will average over all our samples
+            write_color(std::cout, pixel_color, samples_per_pixel);
         }
+    }
 
     
     const auto stop = std::chrono::high_resolution_clock::now();
