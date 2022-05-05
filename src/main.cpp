@@ -105,12 +105,8 @@ int main() {
 
 
     const auto start = std::chrono::high_resolution_clock::now();
-    // Read into a ppm file
-    std::fstream out_file;
-    out_file.open("image.ppm", std::ios::out);  // open a file to perform write operation using file object
-    if (out_file.is_open())
-    {
-        out_file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
         for (int j = image_height - 1; j >= 0; --j) {
             std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush; //output progresss to cerr. \r basically means 'return to start'
@@ -124,11 +120,11 @@ int main() {
                 }
 
                 // Note this will average over all our samples
-                write_color(out_file, pixel_color, samples_per_pixel);
+                write_color(std::cout, pixel_color, samples_per_pixel);
             }
         }
-        out_file.close();
-    }
+
+    
     const auto stop = std::chrono::high_resolution_clock::now();
     const auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cerr << "\nCompleted in "<<duration.count()<<" Seconds.\n";
